@@ -1,0 +1,20 @@
+Allow a readme file to be included that will be printed at runtime.
+
+Allow a help file to be printed upon request
+
+Allow animation!
+
+Package into 1 application!
+
+Allow querrying!
+
+Allow solving for when a condition is met!
+
+Break into separate files for continuity
+
+Error checking
+
+Multithreading / speedup in general
+	Impliment a write buffer, so do a certain number of frames, then store all at once instead of checking each time. Do so write the same number of frames each time ~500?
+
+Percent calculated display
