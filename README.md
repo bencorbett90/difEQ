@@ -1,5 +1,7 @@
 # difEQ v0.1
 Numerically solves linear differential equations.
+Note: See README.pdf for a full description.
+
 Compiling and running:
  difEQ was written using GCC in c99 and Anaconda python on Windows 7, you will need to have these installed in order to run difEQ. If you install Anaconda in a location other than the default C:\Anaconda you will need to change the system call at the bottom of difEQ to the correct path. While not tested, difEQ should work on Linux by simply changing all the path arguments to their correct location.
     
