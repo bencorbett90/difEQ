@@ -1,4 +1,4 @@
-# difEQ v0.1
+# difEQ v2.0-beta
 Numerically solves linear differential equations.
 Note: See README.pdf for a full description.
 
