@@ -15,3 +15,5 @@ Variable time step, determined partially by a user defined error function (would
 Multithreading support / general computing speedup
 
 Speedup data exchange between C and python potentially using piping or writing the difEQ.c as a precompiled python library.
+
+Rewrite graphUtility.py so that it can configure the input file and call different versions of difEQ.
