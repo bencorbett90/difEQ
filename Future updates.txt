@@ -1,19 +1,19 @@
-Below are some new features to be implimented in future updates in no particular order. If you have strong feelings about what
-should be added first or an idea for a new feature let me know!
+Below are some new features to be implimented in future updates in no particular order. If you have strong feelings about what should be added first or an idea for a new feature let me know!
 
 Allow a help file to be printed upon request
 
-Allow animation of the position as a function of t.
-
 Package into 1 application for download
 
-Break the source code into separate files for clarity, including putting the coefficient functions in a separate file, and impliment
-make so that the entire package doesn't need to be recompiled simply to change the equation.
+Break the source code into separate files for clarity and make so that the entire package doesn't need to be recompiled simply to change the equations.
 
-Variable time step, determined partially by a user defined error function (would be dependent on the particular equation).
+Allow a variable time step determined by a user writtern error() function.
 
 Multithreading support / general computing speedup
 
-Speedup data exchange between C and python potentially using piping or writing the difEQ.c as a precompiled python library.
+Speedup data exchange between C and python using piping.
 
-Rewrite graphUtility.py so that it can configure the input file and call different versions of difEQ.
+Create a python application to call difEQ and set up a input file.
+
+Include an example of how to set up and examples of computations.
+
+Allow users to define a new readline() function as well that can read in additinonal lines of input to configure the specific equation defining functions.

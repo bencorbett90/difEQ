@@ -1,0 +1,4 @@
+version 2.0.1-beta:
+	Added a new file "equations.c", which contains the user defined equations as well as the code for finding those equations.
+
+	Added a new function "animation(frames)" to the python interface which will animate the space curve as a time evolves.

@@ -136,7 +136,7 @@ def cnd(frame):
 	else:
 		return y_vals[frame]
 
-def animate(length = 10):
+def animate(length = 50):
 	graph = plt.figure()
 	ax = graph.add_subplot(111, projection='3d')
 	ax.set_xlim3d([x_min, x_max])
