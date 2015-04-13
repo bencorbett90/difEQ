@@ -15,10 +15,9 @@ However it is very easy to add a package. Simply add a new set of three equation
 
 Once the equation has been solved an interactive python terminal will open, this is where you can interact with the data. Enter showGraph() and a graph of the solution will appear. Enter animate() to animate the function. You can also find the specific position at any time by entering r(t) where t is the time in question. You can also use print_cnd() to find points that satisfy a condition that you specify. Feel free to add new functionality be editing the graphUtility.py file, and unless you want to consistently define conditions in the terminal, this is how you will define new conditions.
 
-Tips:
-	If the calculation phase is taking a long time, decrease the number of simulation frames. This can be done by increasing deltaT or by decreasing the range of the simulation time.
+Tips
+If the calculation phase is taking a long time, decrease the number of simulation frames. This can be done by increasing deltaT or by decreasing the range of the simulation time.
 
-	If writing the data to disk is taking a long time, decrease the total number of stored points.
-	This can be done by increasing deltaT, increasing the store fraction, or by decreasing the range of the simulation time.
+If writing the data to disk is taking a long time, decrease the total number of stored points.This can be done by increasing deltaT, increasing the store fraction, or by decreasing the range of the simulation time.
 
-	If the animation is going to slow or too fast try using animate(x), which adds x points per frame instead of the default 50.
+If the animation is going to slow or too fast try using animate(x), which adds x points per frame instead of the default 50.
