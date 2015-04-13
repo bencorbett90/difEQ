@@ -5,16 +5,17 @@
 #include <time.h>
 
 #include "difEQ.h"
-
-
+#include "equations.c"
 
 /** Sets up the initial conditions, including solving for the initial acceleration. */
-void initialize(double* r_0, double* v_0, double t_initial, double t_final, 
-		double dt, int sf) {
+void initialize(double* r_0, double* v_0, double t_initial, double t_final, double dt, int sf) {
 	for (int i = 0; i < 3; i++) {
 		r[i] = r_0[i];
 		v[i] = v_0[i];
 	}
+
+	getFunc(name);
+
 	t_i = t_initial;
 	t_f = t_final;
 	t = t_initial;
@@ -79,14 +80,14 @@ void write_data() {
 	if (useTime) {
 		curTime = clock(); 
 	} if (showProgress) {
-		printf("Writing data to disk:  0%%");
+		fprintf(stdout, "Writing data to disk:  0%%");
 		FILE* data = fopen(output, "w");
 		double pos[3];
 		int i = 0;
 		for (double T = t_i; T < t_f; T += deltaT * storeFrac) {
 			if (i % 100 == 0) {
 				int percent = round((T - t_i) * 100 / (deltaT * (t_f - t_i)));
-				printf("\rWriting data to disk: %02d", percent);
+				fprintf(stdout, "\rWriting data to disk: %02d", percent);
 			}
 			double t = querry(T, pos);
 			fprintf(data, "%f %f %f %f\n", pos[0], pos[1], pos[2], t);
@@ -94,7 +95,7 @@ void write_data() {
 		}
 		fclose(data);
 	} else {
-		printf("Writing data to disk...");
+		fprintf(stdout, "Writing data to disk...");
 		FILE* data = fopen(output, "w");
 		double pos[3];
 		for (double T = t_i; T < t_f; T += deltaT * storeFrac) {
@@ -103,11 +104,11 @@ void write_data() {
 		}
 		fclose(data);
 	}
-	printf("\rWriting data to disk: Done\n");
+	fprintf(stdout, "\rWriting data to disk: Done\n");
 	
 	if (useTime) {
 		curTime = clock() - curTime;
-		printf("%f seconds writing data to disk\n", (float) curTime / CLOCKS_PER_SEC);
+		fprintf(stdout, "%f seconds writing data to disk\n", (float) curTime / CLOCKS_PER_SEC);
 	}
 }
 
@@ -122,7 +123,7 @@ int readLine(char* str, int line) {
 	if (line == 1) {
 		for (int i = 0; i < 4; i++) {
 			if (item == NULL) {
-				printf("Line 1: not enough arguments.\n");
+				fprintf(stderr, "Line 1: not enough arguments.\n");
 				return 1;
 			} 
 			value = atof(item);
@@ -133,16 +134,16 @@ int readLine(char* str, int line) {
 			item = strtok(NULL, ignorechars);
 		}
 		if (t_i >= t_f) {
-			printf("Line 1: t_i > t_f\n");
+			fprintf(stderr, "Line 1: t_i > t_f\n");
 			return 1;
 		} if (deltaT == 0) {
-			printf("Line 1: deltaT is 0");
+			fprintf(stderr, "Line 1: deltaT is 0");
 			return 1;
 		} 
 	} if (line == 2 || line == 3) {
 		for (int i = 0; i < 3; i++) {
 			if (item == NULL) {
-				printf("Line %d: not enough arguments.\n", line);
+				fprintf(stderr, "Line %d: not enough arguments.\n", line);
 				return 1;
 			} 
 			value = atof(item);
@@ -153,6 +154,8 @@ int readLine(char* str, int line) {
 			} 
 			item = strtok(NULL, ignorechars);
 		}
+	} if (line == 4) {
+		strcpy(name, item);
 	}
 	return 0;
 }
@@ -167,12 +170,10 @@ int loadConditions(FILE* input) {
 		err += readLine(line, lineNum);
 	}
 	return err == 0 ? 0 : 1;
-
 }
 
 /** Prints the standard info for this simulation. */
 void printInfo() {
-	printf(description);
 	printf("Start time: %f\tStop time: %f\tDeltaT: %e\n", t_i, t_f, deltaT);
 	printf("Initial position = <%f, %f, %f>\n", r[0], r[1], r[2]);
 	printf("Initial velocity = <%f, %f, %f>\n", v[0], v[1], v[2]);
@@ -182,6 +183,9 @@ void printInfo() {
 
 
 int main(int argc, char **argv) {
+	printf(description);
+	strcpy(name, "\0");
+
 	if (argc == 2) {
 		FILE* input = fopen(argv[1], "r");
 		if (input == NULL) {

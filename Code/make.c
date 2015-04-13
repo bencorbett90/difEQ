@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
 	for (int i = 1; i < argc; i++) {
 		strcat(options, argv[i]);
 	}
-	sprintf(cmd, "gcc difEQ.c -o difEQ -lm -std=c99 %s", options);
+	sprintf(cmd, "C:\\MinGW\\bin\\gcc difEQ.c -o difEQ -lm -std=c99 %s", options);
 	system(cmd);
 	return 0;
 }

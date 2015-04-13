@@ -1,6 +1,8 @@
 from pylab import *
 from mpl_toolkits.mplot3d import Axes3D
 from numpy import *
+import matplotlib.animation as animation
+import sys
 
 t_vals = []
 x_vals = []
@@ -13,9 +15,15 @@ x_min = float("inf")
 x_max = float("-inf")
 y_min = float("inf")
 y_max = float("-inf")
+z_min = float("inf")
+z_max = float("-inf")
+
+def main():
+	if len(sys.argv) > 1:
+		loadFile(sys.argv[1])
 
 def loadFile(filePath):
-	global x_vals, y_vals, z_vals, t_vals, data, t_min, t_max
+	global x_vals, y_vals, z_vals, t_vals, data, t_min, t_max, x_min, x_max, y_min, y_max, z_min, z_max
 	data = open(filePath, 'r')
 	for line in data:
 		items = line.split(" ")
@@ -28,6 +36,21 @@ def loadFile(filePath):
 			t_vals += [float(items[3])]
 	t_min = t_vals[0]
 	t_max = t_vals[-1]
+	for item in x_vals:
+		if item > x_max:
+			x_max = item
+		if item < x_min:
+			x_min = item
+	for item in y_vals:
+		if item > y_max:
+			y_max = item
+		if item < y_min:
+			y_min = item
+	for item in z_vals:
+		if item > z_max:
+			z_max = item
+		if item < z_min:
+			z_min = item
 
 
 def showGraph():
@@ -40,8 +63,6 @@ def showGraph():
 	ax.autoscale_view()
 	show()
 
-def main():
-	loadFile(sys.argv[1])
 
 #	Finds the point nearest to time and print the value, and returns the index.
 #	Or -1 if there is an error.
@@ -71,10 +92,10 @@ def find_index(t):
 			found = True
 			return index
 
-def print_r(t):
+def r(t):
 	index = find_index(t)
 	if (index != -1):
-		print_r(index)
+		print_vector(index)
 
 #	Find the 
 def find_cnd(cond, t_start = t_min, t_stop = t_max):
@@ -99,7 +120,7 @@ def print_cnd(cnd, t_start = t_min, t_stop = t_max):
 	for frame in frames:
 		print_r(frame)
 
-def print_r(frame):
+def print_vector(frame):
 	if (frame >= len(t_vals) or frame < 0):
 		printf("Frame out of scope of simulation: " + frame)
 	else:
@@ -115,6 +136,26 @@ def cnd(frame):
 	else:
 		return y_vals[frame]
 
+def animate(length = 10):
+	graph = plt.figure()
+	ax = graph.add_subplot(111, projection='3d')
+	ax.set_xlim3d([x_min, x_max])
+	ax.set_ylim3d([y_min, y_max])
+	ax.set_zlim3d([z_min, z_max])
+	ax.set_xlabel('X axis')
+	ax.set_ylabel('Y axis')
+	ax.set_zlabel('Z axis')
+
+	deltaT = t_vals[1] - t_vals[0]
+	
+	def update_points(index):
+		i = index * length
+		ax.plot(x_vals[i:i+length], y_vals[i:i+length], zs = z_vals[i:i+length], color = 'g')
+
+	line_ani = animation.FuncAnimation(graph, update_points, len(x_vals) / length, interval = 1, blit=False)
+	show()
+
 
 
 main()
+
