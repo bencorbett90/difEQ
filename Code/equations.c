@@ -1,7 +1,7 @@
 #include <math.h>
 
 
-/** default: The defult equation consisting of all zeroes. */
+/** default: The defult equation. */
 ///////////////////////////////////////////
 void defaultV(double* src) {
 	src[0] = -.4;
@@ -44,8 +44,15 @@ void testF(double* src) {
 	src[2] = sin(t);
 }
 //////////////////////////////////////////////////////
+
+/** The number of equation packages. Incriment by one for each package you add. */
 int numEqn = 2;
+
+/** An array of pointers to the actual equation functions. Add your functions to this list in the
+	order of vMod (Q), rMod (P), and finally drivingF (F). */
 void (*eqns[])( double* ) = {defaultV, defaultR, defaultF, testV, testR, testF};
+
+/** An array of equation package names. Simply add the name of your package to the list. */
 char* eqnNames[] = {"default", "test"};
 
 

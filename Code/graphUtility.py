@@ -18,12 +18,20 @@ y_max = float("-inf")
 z_min = float("inf")
 z_max = float("-inf")
 
+# Loads the file specified by the command line argument if it exits.
 def main():
 	if len(sys.argv) > 1:
 		loadFile(sys.argv[1])
 
+#Loads values in the file specified by FILEPATH into t_vals, x_vals, y_vals, z_vals. 
 def loadFile(filePath):
 	global x_vals, y_vals, z_vals, t_vals, data, t_min, t_max, x_min, x_max, y_min, y_max, z_min, z_max
+	try:
+		data = open(filePath, 'r')
+	except IOError, e:
+		print("The requested file doesn't exist.")
+		return;
+		
 	data = open(filePath, 'r')
 	for line in data:
 		items = line.split(" ")
@@ -53,6 +61,7 @@ def loadFile(filePath):
 			z_min = item
 
 
+#Displays the graph of x_vals, y_vals, z_vals. 
 def showGraph():
 	graph = plt.figure()
 	ax = graph.add_subplot(111, projection='3d')
@@ -92,12 +101,13 @@ def find_index(t):
 			found = True
 			return index
 
+# Prints the position at time T.
 def r(t):
 	index = find_index(t)
 	if (index != -1):
 		print_vector(index)
 
-#	Find the 
+# Returnes the indices of the set of points that satisfy COND from T_MIN to T_MAX
 def find_cnd(cond, t_start = t_min, t_stop = t_max):
 	indices = []
 	min_t, max_t = find_index(t_min), find_index(t_max)
@@ -113,13 +123,16 @@ def find_cnd(cond, t_start = t_min, t_stop = t_max):
 				indices += [frame]
 	return indices
 
+# Prints out the list of positinos that satisfy CND from T_MIN to T_MAX.
 def print_cnd(cnd, t_start = t_min, t_stop = t_max):
 	frames = find_cnd(cnd, t_start, t_stop)
 	if (len(frames) == 0):
 		print("There were no points that matched the condition.")
 	for frame in frames:
-		print_r(frame)
+		print_vector(frame)
 
+
+# Prints out a representation of the position vector at frame FRAME.
 def print_vector(frame):
 	if (frame >= len(t_vals) or frame < 0):
 		printf("Frame out of scope of simulation: " + frame)
@@ -130,12 +143,15 @@ def print_vector(frame):
 		z = z_vals[frame]
 		print("r({:e}) = <{:e}, {:e}, {:e}>".format(t, x, y, z))
 
+# An example condition that finds when y == 0.
 def cnd(frame):
 	if (frame < 0):
 		return float("NaN")
 	else:
 		return y_vals[frame]
 
+# Animates the position as a function of time. LENGTH specifies the number of points 
+# to add at each frame.
 def animate(length = 50):
 	graph = plt.figure()
 	ax = graph.add_subplot(111, projection='3d')
@@ -152,7 +168,7 @@ def animate(length = 50):
 		i = index * length
 		ax.plot(x_vals[i:i+length], y_vals[i:i+length], zs = z_vals[i:i+length], color = 'g')
 
-	line_ani = animation.FuncAnimation(graph, update_points, len(x_vals) / length, interval = 1, blit=False)
+	line_ani = animation.FuncAnimation(graph, update_points, len(x_vals) / length, repeat = False, interval = 1)
 	show()
 
 

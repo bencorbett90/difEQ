@@ -68,13 +68,16 @@ double querry(double t, double* pos) {
 	return i/3 * deltaT * storeFrac;
 }
 
-
+/** Stores the current location into points, which will
+	be passed on to the Python graphing application. */
 void store() {
 	points[index++] = r[0];
 	points[index++] = r[1];
 	points[index++] = r[2];
 }
 
+/** Writes all of the data stored in points[] to disk at the file location specified
+	by OUTPUT. */
 void write_data() {
 	clock_t curTime;
 	if (useTime) {
