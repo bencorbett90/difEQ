@@ -1,6 +1,7 @@
 # difEQ v2.0.1-beta
 Numerically solves linear differential equations.
-Note: See documentation.pdf for a full description.
+
+Note: See documentation.pdf for a full description, and Examples.pdf for examples.
 
 difEQ will numerically solve any second order linear differential equation in three dimensions.
 You will need GCC and Anaconda python in order to run difEQ.
